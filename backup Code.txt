@@ -3,11 +3,14 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user,login_required, logout_user, current_user
 from datetime import timedelta
 from werkzeug.exceptions import abort
+from flask_sqlalchemy import SQLAlchemy
 import re
 
 app = Flask(__name__)
 
 #database setup
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+db = SQLAlchemy(app)
 
 #configurations
 app.config['SECRET_KEY']= 'your secret key'
@@ -26,8 +29,24 @@ def load_user():
     return None
 
 #user class
+class Users(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(25), nullable=False)
+    email = db.Column(db.String(40), nullable=False, unique=True)
+    password = db.Column(db.String(255), nullable=False)
 
-#password check
+    def get_id(self):
+        return str(self.id)
+
+    def is_active(self):
+        return True
+
+    def is_authenticated(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
 
 #main page
 @app.route('/')

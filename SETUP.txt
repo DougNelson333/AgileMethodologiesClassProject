@@ -1,4 +1,4 @@
-SETUP
+SETUP (ONLY ONCE)
      1. In menu bar click "View".
      2. Click "Command Palette...".
      3. Search for "Python: Create Environment..." and click on it.
@@ -12,9 +12,14 @@ SETUP
      10. Run the command: & <directory path>/.venv/Scripts/Activate.ps1               
          Now you should see "(.venv)" in front of your PS command line. If not restart the process from step 1. If it doesnt work again google helps.
      
-     11. Run the command: pip install flask, flask_login
+     11. Run the command: pip install flask, flask_login, flask-sqlalchemy
          If the "PROBLEMS" menu in the terminal has any warnings after waiting about more than 20 seconds you have to close and reopen Visual Studio Code.
          AFTER REOPENING YOU WILL HAVE TO REPEAT STEP 9 AND STEP 10 ONLY!
+
+SETUP EVERY REOPENING
+    Run the commands in this order:
+        Set-ExecutionPolicy Unrestricted -Scope Process
+        & <directory path>\.venv\Scripts\activate.ps1
 
 RUN
     SETUP RUNNING (RUN THE COMMANDS ONLY ONCE)
