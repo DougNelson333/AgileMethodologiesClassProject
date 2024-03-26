@@ -1,0 +1,27 @@
+SETUP
+     1. In menu bar click "View".
+     2. Click "Command Palette...".
+     3. Search for "Python: Create Environment..." and click on it.
+     4. Select "Venv".
+     5. Select "Create". Note: might have to select "Delete and Recreate".
+     6. Select "Python <version>". Preferably the version is 3.11.7 64-bit (Microsoft Store)
+     7. Open a new Terminal. If Powershell is not default, then change the terminal to Powershell.
+
+     8. Make sure you are in the "AGILEMETHODOLOGIES..." directory.
+     9. Run the command: Set-ExecutionPolicy Unrestricted -Scope Process        Note: this should give access to run scripts
+     10. Run the command: & <directory path>/.venv/Scripts/Activate.ps1               
+         Now you should see "(.venv)" in front of your PS command line. If not restart the process from step 1. If it doesnt work again google helps.
+     
+     11. Run the command: pip install flask, flask_login
+         If the "PROBLEMS" menu in the terminal has any warnings after waiting about more than 20 seconds you have to close and reopen Visual Studio Code.
+         AFTER REOPENING YOU WILL HAVE TO REPEAT STEP 9 AND STEP 10 ONLY!
+
+RUN
+    SETUP RUNNING (RUN THE COMMANDS ONLY ONCE)
+        Run the command: set FLASK_APP=app
+        Run the command: set FLASK_ENV=development
+
+    RUN THE SERVER     
+        Run the command: flask run
+             This should start the local server. You can reach the website on the given URL in the terminal when you run the server.
+        To terminate the server press: Ctrl + C
