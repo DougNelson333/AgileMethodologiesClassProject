@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>{% block title %} My Subsciptions {% endblock %}</h1>
+    {% if usersubs %}
+        {% for sub in usersubs %}
+            
+        {% endfor %}
+    {% else %}
+        <p>You don`t have any subsciptions at the moment.</p>
+    {% endif %}
+{% endblock %}

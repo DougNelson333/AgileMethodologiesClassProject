@@ -87,17 +87,43 @@ def login():
 
 #logout
 @app.route("/logout")
+@login_required
 def logout():
     logout_user()
     return redirect(url_for("index"))
 
 #show user's subscriptions
+@app.route("/userlist")
+@login_required
+def userlist():
+    usersubs = None
+    return render_template('userlist.html',usersubs=usersubs)
 
 #show all subsciptions
+@app.route("/list")
+def list():
+    subs=None
+    return render_template('list.html',subs=subs)
 
 #cancel a subsciprtion
+@app.route("/delete", methods=['POST'])
+@login_required
+def delete():
+    if request.method == 'POST':
+        #delete the subsciption
+        flash("Subscription deleted successfully!")
+        return redirect(url_for('userlist'))
+    return redirect(url_for('index'))
 
 #add a subsciption
+@app.route("/add",methods=['GET','POST'])
+@login_required
+def add():
+    if request.method=='POST':
+        #add subscription
+        flash("Subscription added!")
+        return redirect(url_for('userlist'))
+    return render_template('list.html')
 
 #password strength check
 def is_password_strong(password):
