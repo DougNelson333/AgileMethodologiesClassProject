@@ -63,3 +63,7 @@ a.navbar-brand {
     border-color: lightblue;
     padding: 5px;
 }
+
+.indent{
+    padding-left: 40px;
+}

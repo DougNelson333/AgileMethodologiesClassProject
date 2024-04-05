@@ -1,6 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1>{% block title %} Home Page {% endblock %}</h1>
-    <p>Welcome to the project</p>
+
+    {% if message %}
+        <p style="color: red;">{{ message }}</p>
+    {% endif %}
+
+    {% if not current_user.is_authenticated %}
+        <h2>Welcome {{username}}!</h2>
+        <a class="btn btn-outline-primary" href="{{url_for('register')}}">Create your account!</a>
+    {% else %}
+        <h2>Welcome {{username}}!</h2>
+    {% endif %}
+
+    <h3>No featured subscriptions to show yet</h3>
 
 {% endblock %}

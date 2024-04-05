@@ -34,13 +34,19 @@ class Users(UserMixin, db.Model):
     username = db.Column(db.String(25), nullable=False)
     email = db.Column(db.String(40), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
+    #notification = db.Column(db.Integer, default=0)
 
 db.init_app(app)
 
 #main page
 @app.route('/')
 def index():
-    return render_template('index.html')
+    if current_user.is_authenticated:
+        username=Users.query.filter_by(id=current_user.id).first().username
+        return render_template('index.html',username=username)
+    else:
+        username="Friend"
+        return render_template('index.html',username=username)
 
 #register
 @app.route('/register',methods=['GET','POST'])
@@ -50,6 +56,7 @@ def register():
         email=request.form['email']
         password=request.form['password']
         c_password=request.form['confirm_password']
+        #notification=request.form['notification']
 
         user=Users.query.filter_by(email=email).first()
         
@@ -90,6 +97,7 @@ def login():
 @login_required
 def logout():
     logout_user()
+    flash('Logged out successfully!','success')
     return redirect(url_for("index"))
 
 #show user's subscriptions
