@@ -1,0 +1,40 @@
+Netflix, Entertainment, 12.99
+Spotify, Music, 9.99
+HBO Max, Entertainment, 14.99
+Adobe Creative Cloud, Software, 52.99
+Amazon Prime, Shopping, 12.99
+Microsoft 365, Software, 6.99
+Apple Music, Music, 9.99
+Disney+, Entertainment, 7.99
+New York Times, News, 14.99
+LinkedIn Premium, Professional, 29.99
+Google One, Cloud Storage, 1.99
+Twitch Prime, Entertainment, 4.99
+NYC MetroCard, Transportation, 127.00
+GitHub Pro, Development, 7.00
+HelloFresh, Food, 7.99
+Audible, Books, 14.95
+Dropbox, Cloud Storage, 9.99
+Peloton, Fitness, 39.00
+ESPN+, Sports, 5.99
+Grammarly, Productivity, 11.66
+Zoom, Communication, 14.99
+Medium, News, 5.00
+PlayStation Plus, Gaming, 9.99
+Duolingo Plus, Education, 6.99
+Skillshare, Education, 15.00
+Evernote, Productivity, 7.99
+Shutterstock, Photography, 29.00
+Todoist, Productivity, 3.00
+Hulu, Entertainment, 5.99
+Magzter, Reading, 9.99
+Scribd, Books, 9.99
+Calm, Health & Fitness, 14.99
+Instacart Express, Food Delivery, 9.99
+Quip, Productivity, 10.00
+1Password, Security, 2.99
+Vimeo, Video Hosting, 7.00
+The Athletic, Sports, 7.99
+Audm, News & Magazines, 7.99
+MasterClass, Education, 15.00
+SoundCloud Go+, Music, 9.99

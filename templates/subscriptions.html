@@ -1,19 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>{% block title %} My Subsciptions {% endblock %}</h1>
+    <h1>{% block title %} All Subsciptions {% endblock %}</h1>
     {% if subs %}
         {% for sub in subs %}
             <h2>{{sub['name']}}</h2>
             <span class="badge badge-primary">Category: {{sub['category']}}</span>
             <span class="badge badge-primary">Price: {{sub['price']}}</span>
             <div style="display: inline;">
-                <form action="{{url_for('delete',id=sub['id'])}}" method="POST" style="display: inline;">
-                    <button type="submit" class="badge badge-warning" class="button">Unsubscribe</button>
+                <form action="{{url_for('subscribe',id=sub['id'])}}" method="POST" style="display: inline;">
+                    <button type="submit" class="badge badge-warning" class="button">Subscribe</button>
                 </form>
             </div>
             <hr>
         {% endfor %}
     {% else %}
-        <p>You don`t have any subsciptions at the moment.</p>
+        <p>NO SUBSCIPTIONS TO SHOW</p>
     {% endif %}
 {% endblock %}

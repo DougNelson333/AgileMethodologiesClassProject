@@ -10,7 +10,11 @@ app = Flask(__name__)
 
 #database setup
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
-db = SQLAlchemy()
+app.config['SQLALCHEMY_BINDS'] = {
+        'db2': 'sqlite:///subs.db',
+        'db3': 'sqlite:///store.db'
+}
+db = SQLAlchemy(app)
 
 #configurations
 app.config['SECRET_KEY']= 'your secret key'
@@ -36,7 +40,19 @@ class Users(UserMixin, db.Model):
     password = db.Column(db.String(255), nullable=False)
     #notification = db.Column(db.Integer, default=0)
 
-db.init_app(app)
+#subscription class
+class Subscriptions(db.Model):
+    __bind_key__='db2'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(30), nullable=False)
+    category = db.Column(db.String(30), nullable=False)
+    price = db.Column(db.DECIMAL(6,2), nullable=False)
+
+class Store(db.Model):
+    __bind_key__='db3'
+    id=db.Column(db.Integer, primary_key=True)
+    user_id=db.Column(db.Integer)
+    sub_id =db.Column(db.Integer)
 
 #main page
 @app.route('/')
@@ -68,7 +84,7 @@ def register():
             flash('User already exists!','error')
         else:
             hash_password=generate_password_hash(password)
-            #insert database
+            #insert into database
             user = Users(username=username,email=email,password=hash_password)
             db.session.add(user)
             db.session.commit()
@@ -104,34 +120,55 @@ def logout():
 @app.route("/userlist")
 @login_required
 def userlist():
-    usersubs = None
-    return render_template('userlist.html',usersubs=usersubs)
+    subids = [a.sub_id for a in Store.query.filter_by(user_id=current_user.id).all()]
+    subs=[]
+    for i in subids:
+        subscription = Subscriptions.query.filter_by(id=i).first()
+        if subscription:
+            subs.append(subscription)
+    return render_template('userlist.html',subs=subs)
 
 #show all subsciptions
-@app.route("/list")
-def list():
-    subs=None
-    return render_template('list.html',subs=subs)
+@app.route("/subscriptions")
+def subscriptions():
+    subs=[]
+    if current_user.is_authenticated:
+        subids = [a.sub_id for a in Store.query.filter_by(user_id=current_user.id).all()]
+        ids=[a.id for a in Subscriptions.query.all()]
+        for i in ids:
+            if(i not in subids):
+                subscription=Subscriptions.query.filter_by(id=i).first()
+                if subscription:
+                    subs.append(subscription)
+    else:
+        subs=list(Subscriptions.query.all())
+    return render_template('subscriptions.html',subs=subs)
 
 #cancel a subsciprtion
-@app.route("/delete", methods=['POST'])
+@app.route("/<string:id>/delete", methods=['POST'])
 @login_required
-def delete():
+def delete(id):
     if request.method == 'POST':
         #delete the subsciption
+        s=Store.query.filter_by(sub_id=id).first()
+        db.session.delete(s)
+        db.session.commit()
         flash("Subscription deleted successfully!")
         return redirect(url_for('userlist'))
     return redirect(url_for('index'))
 
 #add a subsciption
-@app.route("/add",methods=['GET','POST'])
+@app.route("/<string:id>/subscribe",methods=['POST'])
 @login_required
-def add():
+def subscribe(id):
     if request.method=='POST':
         #add subscription
+        s = Store(user_id=current_user.id,sub_id=id)
+        db.session.add(s)
+        db.session.commit()
         flash("Subscription added!")
         return redirect(url_for('userlist'))
-    return render_template('list.html')
+    return render_template('subscriptions.html')
 
 #password strength check
 def is_password_strong(password):
