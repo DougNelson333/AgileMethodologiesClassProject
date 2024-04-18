@@ -141,11 +141,15 @@ def logout():
 def mysubscriptions():
     subids = [a.sub_id for a in Store.query.filter_by(user_id=current_user.id).all()]
     subs=[]
+    count = 0
+    total = 0
     for i in subids:
         subscription = Subscriptions.query.filter_by(id=i).first()
         if subscription:
             subs.append(subscription)
-    return render_template('mysubscriptions.html',subs=subs)
+            count += 1
+            total += subscription.price
+    return render_template('mysubscriptions.html',subs=subs, count=count, total=total)
 
 #show all subsciptions
 @app.route("/subscriptions")

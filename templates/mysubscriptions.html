@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1>{% block title %} My Subscriptions {% endblock %}</h1>
+    {% if count != 0 %}
+        <div style="display: flex; justify-content: space-between;">
+            <h2>You have {{count}} subscriptions</h2>
+            <h2>Total amount ${{total}}</h2>
+        </div>    
+        <hr>
+    {% endif %}
     {% if subs %}
         {% for sub in subs %}
             <h2>{{sub['name']}}</h2>
@@ -14,6 +21,6 @@
             <hr>
         {% endfor %}
     {% else %}
-        <p>You don`t have any subsciptions at the moment.</p>
+        <p>You don`t have any subscriptions at the moment. <a href="{{url_for('subscriptions')}}">browse subscriptions</a></p>
     {% endif %}
 {% endblock %}
