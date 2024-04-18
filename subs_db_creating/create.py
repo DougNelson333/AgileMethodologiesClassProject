@@ -2,6 +2,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 from app import Subscriptions
 
+# DONT RUN THIS UNLESS 'subs.db' IS EMPTY
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_BINDS'] = {
@@ -10,7 +12,7 @@ app.config['SQLALCHEMY_BINDS'] = {
 db = SQLAlchemy(app)
 
 with app.app_context():
-    file = open("substext/subs.txt","r")
+    file = open("subs.txt","r")
     line = file.readline()
     while(line!= ""):
         name = line.split(",")[0].strip()

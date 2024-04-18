@@ -23,7 +23,7 @@
           </li>
           <li class="nav-item">
             {% if current_user.is_authenticated %}
-              <a class="navbar-brand" href="{{url_for('userlist')}}">My Subscriptions</a>
+              <a class="navbar-brand" href="{{url_for('mysubscriptions')}}">My Subscriptions</a>
             {% endif %}
           </li>
           </ul>

@@ -57,12 +57,24 @@ class Store(db.Model):
 #main page
 @app.route('/')
 def index():
+    subs=[]
+    ids=[a.id for a in Subscriptions.query.all()]
     if current_user.is_authenticated:
         username=Users.query.filter_by(id=current_user.id).first().username
-        return render_template('index.html',username=username)
+        subids = [a.sub_id for a in Store.query.filter_by(user_id=current_user.id).all()]
+        for i in ids:
+            if(i not in subids):
+                subscription=Subscriptions.query.filter_by(id=i).first()
+                if subscription.price < 10.00:
+                    subs.append(subscription)
+        return render_template('index.html',username=username, subs=subs)
     else:
         username="Friend"
-        return render_template('index.html',username=username)
+        for i in ids:
+            subscription=Subscriptions.query.filter_by(id=i).first()
+            if subscription.price < 10.00:
+                subs.append(subscription)
+        return render_template('index.html',username=username, subs=subs)
 
 #register
 @app.route('/register',methods=['GET','POST'])
@@ -89,7 +101,14 @@ def register():
             db.session.add(user)
             db.session.commit()
             flash('Registration successful!','success')
-            return render_template('index.html')
+            login_user(user, remember=True)
+            ids=[a.id for a in Subscriptions.query.all()]
+            subs=[]
+            for i in ids:
+                subscription=Subscriptions.query.filter_by(id=i).first()
+                if subscription.price < 10.00:
+                    subs.append(subscription)
+            return render_template('index.html',username=username, subs=subs)
     return render_template('register.html')
 
 #login
@@ -117,16 +136,16 @@ def logout():
     return redirect(url_for("index"))
 
 #show user's subscriptions
-@app.route("/userlist")
+@app.route("/mysubscriptions")
 @login_required
-def userlist():
+def mysubscriptions():
     subids = [a.sub_id for a in Store.query.filter_by(user_id=current_user.id).all()]
     subs=[]
     for i in subids:
         subscription = Subscriptions.query.filter_by(id=i).first()
         if subscription:
             subs.append(subscription)
-    return render_template('userlist.html',subs=subs)
+    return render_template('mysubscriptions.html',subs=subs)
 
 #show all subsciptions
 @app.route("/subscriptions")
@@ -154,7 +173,7 @@ def delete(id):
         db.session.delete(s)
         db.session.commit()
         flash("Subscription deleted successfully!")
-        return redirect(url_for('userlist'))
+        return redirect(url_for('mysubscriptions'))
     return redirect(url_for('index'))
 
 #add a subsciption
@@ -167,7 +186,7 @@ def subscribe(id):
         db.session.add(s)
         db.session.commit()
         flash("Subscription added!")
-        return redirect(url_for('userlist'))
+        return redirect(url_for('mysubscriptions'))
     return render_template('subscriptions.html')
 
 #password strength check

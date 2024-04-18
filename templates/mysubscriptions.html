@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>{% block title %} My Subsciptions {% endblock %}</h1>
+    <h1>{% block title %} My Subscriptions {% endblock %}</h1>
     {% if subs %}
         {% for sub in subs %}
             <h2>{{sub['name']}}</h2>
